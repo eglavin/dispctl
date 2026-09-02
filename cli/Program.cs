@@ -1,11 +1,11 @@
-using ResolutionSwitcherCli.Commands;
+using DispCtl.Cli.Commands;
 using Spectre.Console.Cli;
 
 var app = new CommandApp();
 
 app.Configure(config =>
 {
-	config.SetApplicationName("resolution-switcher");
+	config.SetApplicationName("dispctl");
 
 	config.AddCommand<ListCommand>("list")
 		.WithDescription("List all display devices and their current resolution.");

@@ -1,9 +1,9 @@
-using ResolutionSwitcherLib.Functions;
-using ResolutionSwitcherLib.Models;
+using DispCtl.Lib.Functions;
+using DispCtl.Lib.Models;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace ResolutionSwitcherCli.Commands;
+namespace DispCtl.Cli.Commands;
 
 abstract class DeviceCommand<TSettings> : Command<TSettings> where TSettings : DeviceCommandSettings
 {

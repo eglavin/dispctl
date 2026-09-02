@@ -1,6 +1,6 @@
-# Resolution Switcher
+# dispctl
 
-## What I want resolution switcher to do
+## What I want dispctl to do
 
 1. I want to be able to switch monitor modes from the windows tray bar
 1. I want to be able to define modes using a gui:

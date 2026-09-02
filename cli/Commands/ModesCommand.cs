@@ -1,8 +1,8 @@
-using ResolutionSwitcherLib.Functions;
+using DispCtl.Lib.Functions;
 using Spectre.Console;
 using Spectre.Console.Cli;
 
-namespace ResolutionSwitcherCli.Commands;
+namespace DispCtl.Cli.Commands;
 
 class ModesCommand : DeviceCommand<DeviceCommandSettings>
 {

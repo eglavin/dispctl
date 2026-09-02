@@ -1,10 +1,10 @@
 using System.Runtime.InteropServices;
-using ResolutionSwitcherLib.Models;
+using DispCtl.Lib.Models;
 using Windows.Win32;
 using Windows.Win32.Devices.Display;
 using Windows.Win32.Foundation;
 
-namespace ResolutionSwitcherLib.Functions;
+namespace DispCtl.Lib.Functions;
 
 /*
  * Windows has no documented, supported API to set per-monitor display scaling (DPI).

@@ -1,9 +1,9 @@
-using ResolutionSwitcherLib.Models;
-using ResolutionSwitcherLib.Functions;
+using DispCtl.Lib.Models;
+using DispCtl.Lib.Functions;
 using Spectre.Console;
 using Windows.Win32.Graphics.Gdi;
 
-namespace ResolutionSwitcherCli;
+namespace DispCtl.Cli;
 
 static class Formatting
 {

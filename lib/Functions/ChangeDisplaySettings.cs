@@ -1,7 +1,7 @@
 ﻿using Windows.Win32;
 using Windows.Win32.Graphics.Gdi;
 
-namespace ResolutionSwitcherLib.Functions;
+namespace DispCtl.Lib.Functions;
 
 public class ChangeDisplaySettings
 {

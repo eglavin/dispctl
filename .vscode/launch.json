@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/cli/bin/Debug/net7.0/ResolutionSwitcherCli.dll",
+      "program": "${workspaceFolder}/cli/bin/Debug/net8.0-windows10.0.18362.0/DispCtl.Cli.dll",
       "args": [],
       "cwd": "${workspaceFolder}/cli",
       // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console

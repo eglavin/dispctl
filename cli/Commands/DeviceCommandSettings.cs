@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Spectre.Console.Cli;
 
-namespace ResolutionSwitcherCli.Commands;
+namespace DispCtl.Cli.Commands;
 
 class DeviceCommandSettings : CommandSettings
 {

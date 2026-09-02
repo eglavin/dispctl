@@ -1,4 +1,4 @@
-namespace ResolutionSwitcherLib.Models;
+namespace DispCtl.Lib.Models;
 
 public class DisplayScaleInfo
 {

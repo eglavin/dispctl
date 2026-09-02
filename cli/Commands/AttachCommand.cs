@@ -1,10 +1,10 @@
-using ResolutionSwitcherLib.Functions;
+using DispCtl.Lib.Functions;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Windows.Win32;
 using Windows.Win32.Graphics.Gdi;
 
-namespace ResolutionSwitcherCli.Commands;
+namespace DispCtl.Cli.Commands;
 
 class AttachCommand : DeviceCommand<DeviceCommandSettings>
 {

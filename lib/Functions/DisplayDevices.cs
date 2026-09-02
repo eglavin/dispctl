@@ -1,9 +1,9 @@
-﻿using ResolutionSwitcherLib.Models;
+﻿using DispCtl.Lib.Models;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Graphics.Gdi;
 
-namespace ResolutionSwitcherLib.Functions;
+namespace DispCtl.Lib.Functions;
 
 public class DisplayDevices
 {

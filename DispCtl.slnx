@@ -4,6 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="cli/ResolutionSwitcherCli.csproj" />
-  <Project Path="lib/ResolutionSwitcherLib.csproj" />
+  <Project Path="cli/DispCtl.Cli.csproj" />
+  <Project Path="lib/DispCtl.Lib.csproj" />
 </Solution>

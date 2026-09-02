@@ -1,9 +1,9 @@
 ﻿using System.Runtime.InteropServices;
-using ResolutionSwitcherLib.Models;
+using DispCtl.Lib.Models;
 using Windows.Win32;
 using Windows.Win32.Graphics.Gdi;
 
-namespace ResolutionSwitcherLib.Functions;
+namespace DispCtl.Lib.Functions;
 
 public class DisplayDeviceSettings
 {
