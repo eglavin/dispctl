@@ -1,4 +1,5 @@
 using DispCtl.Lib.Functions;
+using DispCtl.Lib.Models;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using Windows.Win32.Graphics.Gdi;
@@ -28,33 +29,29 @@ class DetachCommand : DeviceCommand<DeviceCommandSettings>
 			return 1;
 		}
 
-		var currentSettings = DisplayDeviceSettings.GetDeviceDisplaySettings(device.DisplayDevice.DeviceName);
-		if (currentSettings is null)
+		// Windows does not keep the position of a detached display anywhere we can read it
+		// back, so record it now for 'attach' to restore.
+		var current = DisplayDeviceSettings.GetDeviceDisplaySettings(device.DisplayDevice.DeviceName);
+		var devicePath = DisplayTopology.GetMonitorDevicePath(device.DisplayDevice.DeviceName);
+
+		if (!DisplayTopology.DetachDevice(device.DisplayDevice.DeviceName))
 		{
-			AnsiConsole.MarkupLine("[red]Unable to read the current display settings for this device.[/]");
+			AnsiConsole.MarkupLine("[red]Unable to detach this device.[/]");
 			return 1;
 		}
 
-		var mode = currentSettings.DeviceMode;
-		mode.dmPelsWidth = 0;
-		mode.dmPelsHeight = 0;
-		mode.dmFields = DEVMODE_FIELD_FLAGS.DM_POSITION |
-						 DEVMODE_FIELD_FLAGS.DM_PELSWIDTH |
-						 DEVMODE_FIELD_FLAGS.DM_PELSHEIGHT;
-
-		var testStatus = ChangeDisplaySettings.TestDisplaySettings(device.DisplayDevice.DeviceName, mode);
-		Formatting.WriteStatus("Test", testStatus);
-		if (testStatus != DISP_CHANGE.DISP_CHANGE_SUCCESSFUL)
+		if (current is not null && devicePath is not null)
 		{
-			return 1;
+			var position = current.DeviceMode.Anonymous1.Anonymous2.dmPosition;
+			var layout = new DisplayLayout(current.DeviceMode.dmPelsWidth, current.DeviceMode.dmPelsHeight, position.x, position.y);
+
+			if (!DisplayLayoutStore.TrySave(devicePath, layout))
+			{
+				AnsiConsole.MarkupLine("[yellow]Could not record this display's position; 'attach' will let Windows choose one.[/]");
+			}
 		}
 
-		var changeStatus = ChangeDisplaySettings.UpdateDisplaySettings(device.DisplayDevice.DeviceName, mode);
-		Formatting.WriteStatus("Change", changeStatus);
-
-		var applyStatus = ChangeDisplaySettings.ApplyDisplaySettings();
-		Formatting.WriteStatus("Apply", applyStatus);
-
+		AnsiConsole.MarkupLineInterpolated($"[green]{device.Name} detached.[/]");
 		return 0;
 	}
 }

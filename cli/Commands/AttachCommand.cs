@@ -1,7 +1,6 @@
 using DispCtl.Lib.Functions;
 using Spectre.Console;
 using Spectre.Console.Cli;
-using Windows.Win32;
 using Windows.Win32.Graphics.Gdi;
 
 namespace DispCtl.Cli.Commands;
@@ -22,35 +21,25 @@ class AttachCommand : DeviceCommand<DeviceCommandSettings>
 			return 1;
 		}
 
-		var desktopWindow = PInvoke.GetDesktopWindow();
-		var desktopContext = PInvoke.GetDC(desktopWindow);
-		var currentDeviceWidth = PInvoke.GetDeviceCaps(desktopContext, GET_DEVICE_CAPS_INDEX.HORZRES);
-		PInvoke.ReleaseDC(desktopWindow, desktopContext);
+		// Restore the position this display had when it was detached. With nothing on record
+		// Windows picks the layout itself, which parks it at the edge of the desktop.
+		var devicePath = DisplayTopology.GetMonitorDevicePath(device.DisplayDevice.DeviceName);
+		var layout = devicePath is null ? null : DisplayLayoutStore.Get(devicePath);
 
-		var currentSettings = DisplayDeviceSettings.GetDeviceDisplaySettings(device.DisplayDevice.DeviceName);
-		if (currentSettings is null)
+		if (!DisplayTopology.AttachDevice(device.DisplayDevice.DeviceName, layout))
 		{
-			AnsiConsole.MarkupLine("[red]Unable to read the current display settings for this device.[/]");
+			AnsiConsole.MarkupLine("[red]Unable to attach this device; it may not have a monitor connected.[/]");
 			return 1;
 		}
 
-		var mode = currentSettings.DeviceMode;
-		mode.Anonymous1.Anonymous2.dmPosition.x -= currentDeviceWidth;
-		mode.dmFields = DEVMODE_FIELD_FLAGS.DM_POSITION;
-
-		var testStatus = ChangeDisplaySettings.TestDisplaySettings(device.DisplayDevice.DeviceName, mode);
-		Formatting.WriteStatus("Test", testStatus);
-		if (testStatus != DISP_CHANGE.DISP_CHANGE_SUCCESSFUL)
+		var updatedDevice = FindDevice(settings.DeviceIndex);
+		if (updatedDevice is null || !updatedDevice.DisplayDevice.StateFlags.HasFlag(DISPLAY_DEVICE_STATE_FLAGS.DISPLAY_DEVICE_ATTACHED_TO_DESKTOP))
 		{
+			AnsiConsole.MarkupLine("[red]Windows did not attach this device; it may not have a monitor connected.[/]");
 			return 1;
 		}
 
-		var changeStatus = ChangeDisplaySettings.UpdateDisplaySettings(device.DisplayDevice.DeviceName, mode);
-		Formatting.WriteStatus("Change", changeStatus);
-
-		var applyStatus = ChangeDisplaySettings.ApplyDisplaySettings();
-		Formatting.WriteStatus("Apply", applyStatus);
-
+		AnsiConsole.MarkupLineInterpolated($"[green]{updatedDevice.Name} attached.[/]");
 		return 0;
 	}
 }
